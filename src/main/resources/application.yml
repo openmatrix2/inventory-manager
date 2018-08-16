@@ -1,6 +1,6 @@
 spring:
   application:
-    name: openmatrix-reactive-redis
+    name: inventory-manager
 
 server:
   port: 8080
