@@ -10,22 +10,23 @@ import reactor.core.publisher.Flux;
 
 @RestController
 public class ItemController {
-	private final ReactiveRedisOperations<String, Item> coffeeOps;
+	private final ReactiveRedisOperations<String, Item> itemOps;
 
 	@Autowired
 	private ItemLoader loader;
 	
 	ItemController(ReactiveRedisOperations<String, Item> coffeeOps) {
-		this.coffeeOps = coffeeOps;
+		this.itemOps = coffeeOps;
 	}
 
 	@GetMapping("/inventory")
 	public Flux<Item> all() {
-		return coffeeOps.keys("*").flatMap(coffeeOps.opsForValue()::get);
+		return itemOps.keys("*").flatMap(itemOps.opsForValue()::get);
 	}
 
-	@GetMapping("/item/{itemName}")
-	public void getItem(@PathVariable("itemName") String itemName) {
+	@GetMapping("/checkinventory/{itemName}")
+	public Flux<Item> getItem(@PathVariable("itemName") String itemName) {
 		loader.getInventory(itemName);
+		return itemOps.keys("*").flatMap(itemOps.opsForValue()::get);
 	}
 }
