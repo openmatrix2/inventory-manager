@@ -1,6 +1,10 @@
 spring:
   application:
-    name: matrix-inventory-manager-local
+    name: matrix-inventory-manager
 
 server:
-  port: 8080
+  port: 9003 
+
+redis:
+    hostname: matrix-redis
+    port: 6379
